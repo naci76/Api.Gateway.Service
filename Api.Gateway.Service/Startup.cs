@@ -28,6 +28,7 @@ namespace Api.Gateway.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddOcelot(Configuration);
         }
 
@@ -40,15 +41,16 @@ namespace Api.Gateway.Service
             }
 
             app.UseHttpsRedirection();
-            await app.UseOcelot();
+         
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseStaticFiles();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            await app.UseOcelot();
         }
     }
 }
